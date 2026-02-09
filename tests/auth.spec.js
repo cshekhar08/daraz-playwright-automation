@@ -19,3 +19,21 @@ test('User should login successfully via modal', async ({ page }) => {
   
   console.log('Login successful: Account menu is now visible.');
 });
+
+test('User should see the disappearing toast error', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+
+  await loginPage.openModal();
+  await loginPage.login(process.env.DARAZ_PHONE, 'wrong_password_123');
+
+  // 1. Wait for the toast to appear
+  // Playwright's auto-waiting will catch this flash
+  await expect(loginPage.toastMessage).toBeVisible({ timeout: 5000 });
+
+  // 2. Capture the text to the console for debugging
+  const errorMessage = await loginPage.toastMessage.innerText();
+  console.log('Caught Daraz Toast Message:', errorMessage);
+
+  // 3. Final Assertion
+  await expect(loginPage.toastMessage).toContainText(/incorrect|invalid/i);
+});

@@ -6,6 +6,9 @@ export class LoginPage {
     this.phoneInput = page.getByRole('textbox', { name: 'Please enter your Phone or' });
     this.passwordInput = page.getByRole('textbox', { name: 'Please enter your password' });
     this.loginButton = page.getByRole('button', { name: 'LOGIN' });
+
+    // Selector for the error message alert
+    this.toastMessage = page.locator('.iweb-toast-wrap'); 
   }
 
   async openModal() {
