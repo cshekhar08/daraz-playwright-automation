@@ -22,4 +22,12 @@ export class SearchPage {
     // Wait for the network to settle so results have time to load
     await this.page.waitForLoadState('networkidle');
   }
+
+  async selectBrand(brandName) {
+    // Click on the brand filter checkbox for the specified brand
+    const brandCheckbox = this.page.locator(`label:has-text("${brandName}")`).first();
+    await brandCheckbox.click();
+    // Wait for results to update after filtering
+    await this.page.waitForLoadState('networkidle');
+  }
 }
