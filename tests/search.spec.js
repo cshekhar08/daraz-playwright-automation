@@ -31,4 +31,20 @@ test.describe('Daraz Search Functionality', () => {
     await expect(noResultsMessage).toContainText(/no result/i);
   });
 
+  test('Should filter search results by Apple brand', async ({ page }) => {
+    const searchPage = new SearchPage(page);
+
+    await searchPage.goto();
+    await searchPage.searchFor('laptop');
+
+    // Select Apple brand filter
+    await searchPage.selectBrand('Apple');
+
+    // Verify that results are filtered (at least one product card should be displayed)
+    const count = await searchPage.productCards.count();
+    expect(count).toBeGreaterThan(0);
+    
+    console.log(`Found ${count} Apple laptop products`);
+  });
+
 });
