@@ -1,0 +1,25 @@
+export class SearchPage {
+  constructor(page) {
+    this.page = page;
+    // navigate to search field
+    this.searchInput = page.getByRole('searchbox', { name: 'Search in Daraz' });
+    
+    // This targets the "breadcrumb" or result header that appears after search
+    this.searchResultTitle = page.locator('.breadcrumb_item_last');
+    
+    // This targets the product cards in the search grid
+    this.productCards = page.locator('.Ms6aG').first();
+  }
+
+  async goto() {
+    await this.page.goto('/');
+  }
+
+  async searchFor(term) {
+    await this.searchInput.click();
+    await this.searchInput.fill(term);
+    await this.searchInput.press('Enter');
+    // Wait for the network to settle so results have time to load
+    await this.page.waitForLoadState('networkidle');
+  }
+}
