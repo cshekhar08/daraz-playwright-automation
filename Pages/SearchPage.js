@@ -5,7 +5,7 @@ export class SearchPage {
     this.searchInput = page.getByRole('searchbox', { name: 'Search in Daraz' });
     
     // This targets the "breadcrumb" or result header that appears after search
-    this.searchResultTitle = page.locator('.breadcrumb_item_last');
+    this.searchResultTitle = page.locator('.JrAyI');
     
     // This targets the product cards in the search grid
     this.productCards = page.locator('.Ms6aG').first();
