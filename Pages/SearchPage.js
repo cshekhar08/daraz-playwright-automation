@@ -30,4 +30,9 @@ export class SearchPage {
     // Wait for results to update after filtering
     await this.page.waitForLoadState('networkidle');
   }
+  //Add a method to select the first product from the search results
+  async selectFirstProduct() {
+    // Click the first product title or image in the results grid
+    await this.page.locator('.Ms6aG').first().click();
+}
 }
