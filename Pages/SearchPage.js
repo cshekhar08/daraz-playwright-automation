@@ -20,7 +20,7 @@ export class SearchPage {
     await this.searchInput.fill(term);
     await this.searchInput.press('Enter');
     // Wait for the network to settle so results have time to load
-    await this.page.waitForLoadState('networkidle');
+    //await this.page.waitForLoadState('networkidle');
   }
 
   async selectBrand(brandName) {
