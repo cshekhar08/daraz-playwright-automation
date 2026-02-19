@@ -5,12 +5,13 @@ export class CartPage {
         this.cartItems = page.locator('.cart-icon-daraz');
         this.quantityUp = page.locator('.next-number-picker-handler-up');
         this.quantityDown = page.locator('.next-number-picker-handler-down');
-        this.removeItemBtn = page.locator('.automation-btn-delete');
+        this.removeItemBtn = page.locator('.lazada.lazada-ic-Delete.lazada-icon.icon.delete');
         this.emptyCartMessage = page.locator('.cart-empty-text');
         this.confirmDeleteBtn = page.getByRole('button', { name: 'Remove' });
     }
-    async goto() {
-        await this.page.goto('/cart');
+    async navigateCartPage() {
+        await this.cartItems.waitFor({ state: 'visible' });
+        await this.cartItems.click();
     
     }
 
@@ -19,6 +20,7 @@ export class CartPage {
     }
 
     async removeItem() {
+        await this.removeItemBtn.waitFor({ state: 'visible' });
         await this.removeItemBtn.click();
         await this.confirmDeleteBtn.click();
     }
