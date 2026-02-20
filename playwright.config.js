@@ -1,31 +1,23 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
+import path from 'path';
 
-// 1. Load your .env file
+// Load your .env file
 dotenv.config();
 
+// Define where the authentication state will be stored
+export const STORAGE_STATE = path.join(__dirname, 'playwright/.auth/user.json');
+
+
 export default defineConfig({
-  // Root directory for your tests
-  testDir: './tests',
+  testDir: './tests',  // Root directory for your tests
+  timeout: 60 * 1000,  // Maximum time one test can run (30-60s is good for e-commerce)
+  expect: { timeout: 5000 },  // Time to wait for a specific condition (e.g., expect(button).toBeVisible())
+  forbidOnly: !!process.env.CI,  // Fail the build on CI if you accidentally left test.only in the source code
+  retries: process.env.CI ? 2 : 1,  // Retry failed tests to handle "flakiness" (common on slow networks)
+  workers: process.env.CI ? 1 : undefined,  // How many tests to run at once (Parallelism)
+  reporter: [['html'], ['list']],  // Reporter to use
 
-  // Maximum time one test can run (30-60s is good for e-commerce)
-  timeout: 60 * 1000,
-
-  expect: {
-    timeout: 5000 // Time to wait for a specific condition (e.g., expect(button).toBeVisible())
-  },
-
-  // Fail the build on CI if you accidentally left test.only in the source code
-  forbidOnly: !!process.env.CI,
-
-  // Retry failed tests to handle "flakiness" (common on slow networks)
-  retries: process.env.CI ? 2 : 1,
-
-  // How many tests to run at once (Parallelism)
-  workers: process.env.CI ? 1 : undefined,
-
-  // Reporter to use
-  reporter: [['html'], ['list']],
 
   use: {
     // Base URL so you can use await page.goto('/') in tests
@@ -43,9 +35,22 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    // --- 1. SETUP PROJECT ---
+    {
+      name: 'setup',
+      testMatch: /.*\.setup\.js/, // This will look for your auth.setup.js file
+    },
+
+    // --- 2. MAIN TESTING PROJECT ---
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'], 
+        // Tell this project to use the cookies saved by the setup project
+        storageState: STORAGE_STATE
+        
+      },
+      // This ensures the setup runs BEFORE the tests start
+      dependencies: ['setup'],
     },
     /*
     {
