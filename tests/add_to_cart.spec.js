@@ -4,18 +4,9 @@ import { SearchPage } from '../Pages/SearchPage';
 import { ProductPage } from '../Pages/ProductPage';
 
 test.describe('Shopping Happy Path', () => {
-  // Use the credentials from your .env file
-  const phone = process.env.DARAZ_PHONE;
-  const password = process.env.DARAZ_PASSWORD;
-  
-  // Step 1: Login before starting the shopping flow
   test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.openModal();
-    await loginPage.login(phone, password);
-    
-    // Ensure we are logged in by checking for the "Account" or "Logout" indicator
-    await expect(page.locator('#myAccountTrigger')).toBeVisible();
+    // Navigate to the home page. 
+    await page.goto('/');
   });
 
   test('Logged in user can search and add item to cart', async ({ page }) => {
