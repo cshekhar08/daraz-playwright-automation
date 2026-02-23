@@ -1,0 +1,26 @@
+{
+  "name": "daraz-playwright-automation",
+  "version": "1.0.0",
+  "description": "This is a Playwright-based automation framework for testing the Daraz e-commerce application. \r It is built with JavaScript and follows the Page Object Model (POM) design pattern.",
+  "main": "playwright.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cshekhar08/daraz-playwright-automation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cshekhar08/daraz-playwright-automation/issues"
+  },
+  "homepage": "https://github.com/cshekhar08/daraz-playwright-automation#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.3.0"
+  }
+}
